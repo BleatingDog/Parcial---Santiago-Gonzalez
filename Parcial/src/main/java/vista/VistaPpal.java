@@ -20,16 +20,16 @@ import javax.swing.table.JTableHeader;
 public class VistaPpal extends javax.swing.JFrame {
 
     private final DefaultTableModel modeloTablaHistorico = new DefaultTableModel();
-    private final DefaultTableModel modeloTablaPromedio = new DefaultTableModel();
+    private final DefaultTableModel modeloTablaPronostico = new DefaultTableModel();
     private JTableHeader th;
     private JTableHeader th2;
     
     public VistaPpal() {
         llenarColumnasHistorico();
-        llenarColumnasPromedio();
+        llenarColumnasPronostico();
         initComponents();
         diseñoTablaHistórico();
-        diseñoTablaPromedio();
+        diseñoTablaPronostico();
         GestorVistaPpal gestorPpal = new GestorVistaPpal(this);
         setVisible(true);
         setTitle("Pronóstico de ventas");
@@ -41,8 +41,8 @@ public class VistaPpal extends javax.swing.JFrame {
         modeloTablaHistorico.addRow(fila);
     }
     
-    public void anadirFilaTablaPromedio(Object[] fila) {
-        modeloTablaPromedio.addRow(fila);
+    public void anadirFilaTablaPronostico(Object[] fila) {
+        modeloTablaPronostico.addRow(fila);
     }
     
     public final void llenarColumnasHistorico(){
@@ -52,9 +52,9 @@ public class VistaPpal extends javax.swing.JFrame {
         modeloTablaHistorico.addColumn("");
     }
     
-    public final void llenarColumnasPromedio(){
-        modeloTablaPromedio.addColumn("Año");
-        modeloTablaPromedio.addColumn("Pronóstico de ventas");
+    public final void llenarColumnasPronostico(){
+        modeloTablaPronostico.addColumn("Año");
+        modeloTablaPronostico.addColumn("Pronóstico de ventas");
     }
     
     public final void diseñoTablaHistórico(){
@@ -74,15 +74,15 @@ public class VistaPpal extends javax.swing.JFrame {
         scroll1.getViewport().setBackground(colorFondo);
     }
     
-    public final void diseñoTablaPromedio(){
+    public final void diseñoTablaPronostico(){
         
         //Fuente de cabecera
-        th2 = tablaPromedio.getTableHeader();
+        th2 = tablaPronostico.getTableHeader();
         Font fuente = new Font("Agency FB", Font.BOLD, 22);
         th2.setFont(fuente);
         
         //Color cabecera
-        tablaPromedio.setOpaque(false);
+        tablaPronostico.setOpaque(false);
         Color colorCabecera = new Color(204, 204, 204);
         th2.setBackground(colorCabecera);
         
@@ -91,6 +91,7 @@ public class VistaPpal extends javax.swing.JFrame {
         scroll2.getViewport().setBackground(colorFondo);
     }
 
+    
     public void addBtnAgregarListener(MouseListener listenerBoton){
         btnAgregar.addMouseListener(listenerBoton);
     }
@@ -106,6 +107,19 @@ public class VistaPpal extends javax.swing.JFrame {
     public void addBtnNuevoListener(MouseListener listenerBoton){
         btnNuevo.addMouseListener(listenerBoton);
     }
+    
+    public void addBtnAceptarListener(MouseListener listenerBoton){
+        btnAceptar.addMouseListener(listenerBoton);
+    }
+
+    public JButton getBtnAceptar() {
+        return btnAceptar;
+    }
+
+    public void setBtnAceptar(JButton btnAceptar) {
+        this.btnAceptar = btnAceptar;
+    }
+    
     public JButton getBtnAgregar() {
         return btnAgregar;
     }
@@ -146,12 +160,12 @@ public class VistaPpal extends javax.swing.JFrame {
         this.tablaHistorico = tablaHistorico;
     }
 
-    public JTable getTablaPromedio() {
-        return tablaPromedio;
+    public JTable getTablaPronostico() {
+        return tablaPronostico;
     }
 
-    public void setTablaPromedio(JTable tablaPromedio) {
-        this.tablaPromedio = tablaPromedio;
+    public void setTablaPronostico(JTable tablaPronostico) {
+        this.tablaPronostico = tablaPronostico;
     }
 
     public JTextField getTxtAnios() {
@@ -177,8 +191,31 @@ public class VistaPpal extends javax.swing.JFrame {
     public void setTxtPromedio(JTextField txtPromedio) {
         this.txtPromedio = txtPromedio;
     }
+    public DefaultTableModel getModeloTablaHistorico(){
+        return modeloTablaHistorico;
+    }
     
+    public DefaultTableModel getModeloTablaPronostico(){
+        return modeloTablaPronostico;
+    }
+
+    public JTextField getTxtAnio() {
+        return txtAnio;
+    }
+
+    public void setTxtAnio(JTextField txtAnio) {
+        this.txtAnio = txtAnio;
+    }
     
+    public int filaSeleccionada() {
+        return tablaHistorico.getSelectedRow();
+    }
+    public int anioSeleccionado(int fila) {
+        return (int) tablaHistorico.getValueAt(fila,0);
+    }
+    public long ventaAnioSeleccionado(int fila) {
+        return (long) tablaHistorico.getValueAt(fila,1);
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -186,6 +223,8 @@ public class VistaPpal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtCantidadVenta = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtAnio = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtAnios = new javax.swing.JTextField();
@@ -194,12 +233,13 @@ public class VistaPpal extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         scroll1 = new javax.swing.JScrollPane();
         tablaHistorico = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         scroll2 = new javax.swing.JScrollPane();
-        tablaPromedio = new javax.swing.JTable();
+        tablaPronostico = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         txtPromedio = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -215,28 +255,43 @@ public class VistaPpal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Cantidad de venta");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Año");
+
+        txtAnio.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(txtCantidadVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCantidadVenta)
+                    .addComponent(txtAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCantidadVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 350, 90));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 350, 100));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Años a pronosticar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -282,18 +337,24 @@ public class VistaPpal extends javax.swing.JFrame {
         btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNuevo.setText("Nuevo pronóstico");
 
+        btnAceptar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(102, 102, 102)
+                .addGap(15, 15, 15)
+                .addComponent(btnAceptar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,7 +364,9 @@ public class VistaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBorrar)
                 .addGap(12, 12, 12)
-                .addComponent(btnModificar)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificar)
+                    .addComponent(btnAceptar))
                 .addGap(12, 12, 12)
                 .addComponent(btnNuevo)
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -339,8 +402,8 @@ public class VistaPpal extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pronóstico de ventas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        tablaPromedio.setModel(modeloTablaPromedio);
-        scroll2.setViewportView(tablaPromedio);
+        tablaPronostico.setModel(modeloTablaPronostico);
+        scroll2.setViewportView(tablaPronostico);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Promedio de variación");
@@ -392,6 +455,7 @@ public class VistaPpal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnModificar;
@@ -399,6 +463,7 @@ public class VistaPpal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -409,7 +474,8 @@ public class VistaPpal extends javax.swing.JFrame {
     private javax.swing.JScrollPane scroll1;
     private javax.swing.JScrollPane scroll2;
     private javax.swing.JTable tablaHistorico;
-    private javax.swing.JTable tablaPromedio;
+    private javax.swing.JTable tablaPronostico;
+    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtAnios;
     private javax.swing.JTextField txtCantidadVenta;
     private javax.swing.JTextField txtPromedio;

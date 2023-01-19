@@ -9,6 +9,7 @@ package controlador;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import vista.VistaPpal;
 
 public class GestorVistaPpal {
@@ -21,6 +22,7 @@ public class GestorVistaPpal {
         this.vistaPpal.addBtnBorrarListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnModificarListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnNuevoListener(new ManejadoraDeMouse());
+        this.vistaPpal.addBtnAceptarListener(new ManejadoraDeMouse());
     }
     
     class ManejadoraDeMouse extends MouseAdapter{
@@ -41,6 +43,18 @@ public class GestorVistaPpal {
             }
             
             if (e.getSource() == vistaPpal.getBtnModificar()){
+                if (e.getButton() == 1){
+                     ingresarDatosVentaAnterior();
+                     vistaPpal.getBtnAceptar().setEnabled(true);
+                     //Desabilitando botones
+                     vistaPpal.getBtnAgregar().setEnabled(false);
+                     vistaPpal.getBtnBorrar().setEnabled(false);
+                     vistaPpal.getBtnModificar().setEnabled(false);
+                     vistaPpal.getBtnNuevo().setEnabled(false);
+                }
+            }
+            
+            if (e.getSource() == vistaPpal.getBtnAceptar()){
                 if (e.getButton() == 1){
                      modificarAnio();
                 }
@@ -70,14 +84,46 @@ public class GestorVistaPpal {
     }
 
     public void borrarAnio() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        int filaSeleccionada = vistaPpal.filaSeleccionada();
+        if (filaSeleccionada != -1){
+            int numeroDeFilas = vistaPpal.getModeloTablaHistorico().getRowCount();
+            for(int i = filaSeleccionada; i < numeroDeFilas; i++){
+                vistaPpal.getModeloTablaHistorico().removeRow(i);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ninguna entrada seleccionada", "Error", JOptionPane.ERROR_MESSAGE);            
+        }
     }
 
     public void modificarAnio() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        //Habilitando botones
+        vistaPpal.getBtnAceptar().setVisible(false);
+        vistaPpal.getBtnAgregar().setEnabled(true);
+        vistaPpal.getBtnBorrar().setEnabled(true);
+        vistaPpal.getBtnModificar().setEnabled(true);
+        vistaPpal.getBtnNuevo().setEnabled(true);
+        
+        vistaPpal.getTxtCantidadVenta().setText("0");
+        long ventaNueva = Long.parseLong(vistaPpal.getTxtCantidadVenta().getText());
+        //Modificar la cantidad de ventas del año seleccionado
     }
-
+    
+    public void ingresarDatosVentaAnterior(){
+        int fila = vistaPpal.filaSeleccionada();
+        if (fila != -1) {
+            long ventaAntigua = vistaPpal.ventaAnioSeleccionado(fila);
+            int anioSeleccionado = vistaPpal.anioSeleccionado(fila);
+            vistaPpal.getTxtCantidadVenta().setText(String.valueOf(ventaAntigua));
+            vistaPpal.getTxtAnio().setText(String.valueOf(anioSeleccionado));
+        } else {
+            JOptionPane.showMessageDialog(null, "Ninguna entrada seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     public void nuevoPronostico() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for(int i = 0; i < vistaPpal.getModeloTablaHistorico().getRowCount(); i++){
+            vistaPpal.getModeloTablaPronostico().removeRow(i);
+        }
     }
 }
