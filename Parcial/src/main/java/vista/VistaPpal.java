@@ -152,6 +152,22 @@ public class VistaPpal extends javax.swing.JFrame {
         this.btnNuevo = btnNuevo;
     }
 
+    public JButton getBtnAceptar3() {
+        return btnAceptar3;
+    }
+
+    public void setBtnAceptar3(JButton btnAceptar3) {
+        this.btnAceptar3 = btnAceptar3;
+    }
+
+    public JButton getBtnAceptar2() {
+        return btnAceptar2;
+    }
+
+    public void setBtnAceptar2(JButton btnAceptar2) {
+        this.btnAceptar2 = btnAceptar2;
+    }
+
     public JTable getTablaHistorico() {
         return tablaHistorico;
     }
@@ -234,6 +250,8 @@ public class VistaPpal extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        btnAceptar2 = new javax.swing.JButton();
+        btnAceptar3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         scroll1 = new javax.swing.JScrollPane();
         tablaHistorico = new javax.swing.JTable();
@@ -254,6 +272,8 @@ public class VistaPpal extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Cantidad de venta");
+
+        txtCantidadVenta.setEnabled(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Año");
@@ -299,6 +319,8 @@ public class VistaPpal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Cantidad");
 
+        txtAnios.setEnabled(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -330,16 +352,27 @@ public class VistaPpal extends javax.swing.JFrame {
 
         btnBorrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBorrar.setText("Borrar año");
+        btnBorrar.setEnabled(false);
 
         btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnModificar.setText("Modificar año");
+        btnModificar.setEnabled(false);
 
         btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNuevo.setText("Nuevo pronóstico");
+        btnNuevo.setEnabled(false);
 
         btnAceptar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.setEnabled(false);
+
+        btnAceptar2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAceptar2.setText("Aceptar");
+        btnAceptar2.setEnabled(false);
+
+        btnAceptar3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAceptar3.setText("Aceptar");
+        btnAceptar3.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -347,7 +380,10 @@ public class VistaPpal extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(btnAceptar)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAceptar)
+                    .addComponent(btnAceptar2)
+                    .addComponent(btnAceptar3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -360,7 +396,9 @@ public class VistaPpal extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(btnAgregar)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnAceptar3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBorrar)
                 .addGap(12, 12, 12)
@@ -368,7 +406,9 @@ public class VistaPpal extends javax.swing.JFrame {
                     .addComponent(btnModificar)
                     .addComponent(btnAceptar))
                 .addGap(12, 12, 12)
-                .addComponent(btnNuevo)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo)
+                    .addComponent(btnAceptar2))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -456,6 +496,8 @@ public class VistaPpal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAceptar2;
+    private javax.swing.JButton btnAceptar3;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnModificar;
