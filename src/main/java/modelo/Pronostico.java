@@ -4,7 +4,7 @@
 * Profesor: Luis Yovany Romo Portilla
 */
 
-package modelos;
+package modelo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
