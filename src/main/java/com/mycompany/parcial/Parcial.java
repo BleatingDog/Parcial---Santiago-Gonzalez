@@ -6,6 +6,8 @@
 
 package com.mycompany.parcial;
 
+import modelos.Pronostico;
+
 public class Parcial {
 
     public static void main(String[] args) {
