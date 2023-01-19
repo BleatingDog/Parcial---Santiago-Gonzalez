@@ -7,8 +7,13 @@
 
 package vista;
 
+import controlador.GestorVistaPpal;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseListener;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -25,12 +30,21 @@ public class VistaPpal extends javax.swing.JFrame {
         initComponents();
         diseñoTablaHistórico();
         diseñoTablaPromedio();
+        GestorVistaPpal gestorPpal = new GestorVistaPpal(this);
         setVisible(true);
         setTitle("Pronóstico de ventas");
         setLocationRelativeTo(null);
         setResizable(false);
     }
 
+    public void anadirFilaTablaHistorico(Object[] fila) {
+        modeloTablaHistorico.addRow(fila);
+    }
+    
+    public void anadirFilaTablaPromedio(Object[] fila) {
+        modeloTablaPromedio.addRow(fila);
+    }
+    
     public final void llenarColumnasHistorico(){
         modeloTablaHistorico.addColumn("Año");
         modeloTablaHistorico.addColumn("Cantidad de ventas");
@@ -76,6 +90,95 @@ public class VistaPpal extends javax.swing.JFrame {
         Color colorFondo = new Color(255, 255, 255);
         scroll2.getViewport().setBackground(colorFondo);
     }
+
+    public void addBtnAgregarListener(MouseListener listenerBoton){
+        btnAgregar.addMouseListener(listenerBoton);
+    }
+    
+    public void addBtnBorrarListener(MouseListener listenerBoton){
+        btnBorrar.addMouseListener(listenerBoton);
+    }
+    
+    public void addBtnModificarListener(MouseListener listenerBoton){
+        btnModificar.addMouseListener(listenerBoton);
+    }
+    
+    public void addBtnNuevoListener(MouseListener listenerBoton){
+        btnNuevo.addMouseListener(listenerBoton);
+    }
+    public JButton getBtnAgregar() {
+        return btnAgregar;
+    }
+
+    public void setBtnAgregar(JButton btnAgregar) {
+        this.btnAgregar = btnAgregar;
+    }
+
+    public JButton getBtnBorrar() {
+        return btnBorrar;
+    }
+
+    public void setBtnBorrar(JButton btnBorrar) {
+        this.btnBorrar = btnBorrar;
+    }
+
+    public JButton getBtnModificar() {
+        return btnModificar;
+    }
+
+    public void setBtnModificar(JButton btnModificar) {
+        this.btnModificar = btnModificar;
+    }
+
+    public JButton getBtnNuevo() {
+        return btnNuevo;
+    }
+
+    public void setBtnNuevo(JButton btnNuevo) {
+        this.btnNuevo = btnNuevo;
+    }
+
+    public JTable getTablaHistorico() {
+        return tablaHistorico;
+    }
+
+    public void setTablaHistorico(JTable tablaHistorico) {
+        this.tablaHistorico = tablaHistorico;
+    }
+
+    public JTable getTablaPromedio() {
+        return tablaPromedio;
+    }
+
+    public void setTablaPromedio(JTable tablaPromedio) {
+        this.tablaPromedio = tablaPromedio;
+    }
+
+    public JTextField getTxtAnios() {
+        return txtAnios;
+    }
+
+    public void setTxtAnios(JTextField txtAnios) {
+        this.txtAnios = txtAnios;
+    }
+
+    public JTextField getTxtCantidadVenta() {
+        return txtCantidadVenta;
+    }
+
+    public void setTxtCantidadVenta(JTextField txtCantidadVenta) {
+        this.txtCantidadVenta = txtCantidadVenta;
+    }
+
+    public JTextField getTxtPromedio() {
+        return txtPromedio;
+    }
+
+    public void setTxtPromedio(JTextField txtPromedio) {
+        this.txtPromedio = txtPromedio;
+    }
+    
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
