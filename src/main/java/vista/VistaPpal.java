@@ -41,6 +41,12 @@ public class VistaPpal extends javax.swing.JFrame {
         modeloTablaHistorico.addRow(fila);
     }
     
+    public void modificarFilaTablaHistorico(Object[] fila, int identificador) {
+        modeloTablaHistorico.setValueAt(fila[0], identificador, 0);
+        modeloTablaHistorico.setValueAt(fila[1], identificador, 1);
+        modeloTablaHistorico.setValueAt(fila[2], identificador, 2);
+    }
+    
     public void anadirFilaTablaPronostico(Object[] fila) {
         modeloTablaPronostico.addRow(fila);
     }
@@ -236,8 +242,8 @@ public class VistaPpal extends javax.swing.JFrame {
     public int anioSeleccionado(int fila) {
         return (int) tablaHistorico.getValueAt(fila,0);
     }
-    public long ventaAnioSeleccionado(int fila) {
-        return (long) tablaHistorico.getValueAt(fila,1);
+    public double ventaAnioSeleccionado(int fila) {
+        return (double) tablaHistorico.getValueAt(fila,1);
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -413,12 +419,12 @@ public class VistaPpal extends javax.swing.JFrame {
                     .addComponent(btnAceptar2)
                     .addComponent(btnAceptar3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
+                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +446,7 @@ public class VistaPpal extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 260, 200));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 280, 200));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Histórico de ventas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N

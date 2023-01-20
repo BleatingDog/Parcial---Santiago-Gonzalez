@@ -67,7 +67,7 @@ public class GestorVistaPpal {
             
             if (e.getSource() == vistaPpal.getBtnNuevo() && vistaPpal.getBtnNuevo().isEnabled()){
                 if (e.getButton() == 1){
-                     borrarPronostico();
+                    borrarPronostico();
                 }
             }
             
@@ -164,9 +164,17 @@ public class GestorVistaPpal {
 
     public void modificarAnio() {
         
-        long ventaNueva = Long.parseLong(vistaPpal.getTxtCantidadVenta().getText());
-        //Modificar la cantidad de ventas del año seleccionado
-        //Recalcular todo :v
+        double ventaNueva = Double.parseDouble(vistaPpal.getTxtCantidadVenta().getText());
+        
+        int filaSeleccionada = vistaPpal.filaSeleccionada();
+        
+        pronostico.modificarAno(ventaNueva, filaSeleccionada);
+        
+        Object[] fila = new Object[3];
+            fila[0] = filaSeleccionada;
+            fila[1] = pronostico.getCantidadVentas().get(filaSeleccionada);
+            fila[2] = "";
+            vistaPpal.modificarFilaTablaHistorico(fila, filaSeleccionada);
         
         //Modificando ventana
         vistaPpal.getBtnAceptar().setEnabled(false);
@@ -194,7 +202,7 @@ public class GestorVistaPpal {
             JOptionPane.showMessageDialog(null, "Ninguna entrada seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        long ventaAntigua = vistaPpal.ventaAnioSeleccionado(fila);
+        double ventaAntigua = vistaPpal.ventaAnioSeleccionado(fila);
         int anioSeleccionado = vistaPpal.anioSeleccionado(fila);
 
         //Ingresando los datos a la ventana
