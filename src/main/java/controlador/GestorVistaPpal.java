@@ -10,19 +10,24 @@ package controlador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
+import modelo.Pronostico;
 import vista.VistaPpal;
 
 public class GestorVistaPpal {
     
     private VistaPpal vistaPpal;
-    private int anioActual = 0;
+    private Pronostico pronostico;
+    
     public GestorVistaPpal(VistaPpal vistaPpal){
         this.vistaPpal = vistaPpal;
+        pronostico = new Pronostico();
         this.vistaPpal.addBtnAgregarListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnBorrarListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnModificarListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnNuevoListener(new ManejadoraDeMouse());
         this.vistaPpal.addBtnAceptarListener(new ManejadoraDeMouse());
+        this.vistaPpal.addBtnAceptar2Listener(new ManejadoraDeMouse());
+        this.vistaPpal.addBtnAceptar3Listener(new ManejadoraDeMouse());
     }
     
     class ManejadoraDeMouse extends MouseAdapter{
@@ -30,43 +35,43 @@ public class GestorVistaPpal {
         @Override
         public void mouseClicked(MouseEvent e){
             
-            if (e.getSource() == vistaPpal.getBtnAgregar()){
+            if (e.getSource() == vistaPpal.getBtnAgregar() && vistaPpal.getBtnAgregar().isEnabled()){
                 if (e.getButton() == 1){
                      agregarEnProceso();
                 }
             }
             
-            if (e.getSource() == vistaPpal.getBtnAceptar3()){
+            if (e.getSource() == vistaPpal.getBtnAceptar3() && vistaPpal.getBtnAceptar3().isEnabled()){
                 if (e.getButton() == 1){
                      agregarAnio();
                 }
             }
-            if (e.getSource() == vistaPpal.getBtnBorrar()){
+            if (e.getSource() == vistaPpal.getBtnBorrar() && vistaPpal.getBtnBorrar().isEnabled()){
                 if (e.getButton() == 1){
                      borrarAnio();
                 }
             }
             
-            if (e.getSource() == vistaPpal.getBtnModificar()){
+            if (e.getSource() == vistaPpal.getBtnModificar() && vistaPpal.getBtnModificar().isEnabled()){
                 if (e.getButton() == 1){
                      ingresarDatosVentaAnterior();
                      
                 }
             }
             
-            if (e.getSource() == vistaPpal.getBtnAceptar()){
+            if (e.getSource() == vistaPpal.getBtnAceptar() && vistaPpal.getBtnAceptar().isEnabled()){
                 if (e.getButton() == 1){
                      modificarAnio();
                 }
             }
             
-            if (e.getSource() == vistaPpal.getBtnNuevo()){
+            if (e.getSource() == vistaPpal.getBtnNuevo() && vistaPpal.getBtnNuevo().isEnabled()){
                 if (e.getButton() == 1){
                      borrarPronostico();
                 }
             }
             
-            if (e.getSource() == vistaPpal.getBtnAceptar2()){
+            if (e.getSource() == vistaPpal.getBtnAceptar2() && vistaPpal.getBtnAceptar2().isEnabled()){
                 if (e.getButton() == 1){
                      ingresarPronostico();
                 }
@@ -77,14 +82,14 @@ public class GestorVistaPpal {
     public void agregarAnio() {
         
         int cantidadDeVentas = Integer.parseInt(vistaPpal.getTxtCantidadVenta().getText());
-        if(cantidadDeVentas > 0) {
+        if(cantidadDeVentas >= 0) {
             
-            anioActual +=1;
-            Object[] fila = new Object[4];
-            fila[0] = anioActual;
-            fila[1] = cantidadDeVentas;
-            fila[2] = 0;//Año actual - (Año actual-1)
-            fila[3] = 0;//(Año actual - (Año actual-1))/Año actual-1
+            pronostico.agregarAno(cantidadDeVentas);
+            Object[] fila = new Object[3];
+            int numAnio = pronostico.getCantidadVentas().size()-1;
+            fila[0] = numAnio;
+            fila[1] = pronostico.getCantidadVentas().get(numAnio);
+            fila[2] = "";
             vistaPpal.anadirFilaTablaHistorico(fila);
             
             //Modificando ventana
@@ -95,8 +100,10 @@ public class GestorVistaPpal {
             vistaPpal.getBtnAceptar3().setEnabled(false);
             vistaPpal.getBtnAceptar2().setEnabled(false);
             vistaPpal.getBtnAceptar().setEnabled(false);
+            vistaPpal.getTxtAnio().setText("");
+            vistaPpal.getTxtCantidadVenta().setText("");
         }
-        if(vistaPpal.getModeloTablaHistorico().getRowCount() >= 3){
+        if(vistaPpal.getModeloTablaHistorico().getRowCount() >= 2){
             vistaPpal.getBtnNuevo().setEnabled(true);
         } else {
            vistaPpal.getBtnNuevo().setEnabled(false); 
@@ -112,6 +119,7 @@ public class GestorVistaPpal {
         vistaPpal.getBtnBorrar().setEnabled(false);
         vistaPpal.getBtnModificar().setEnabled(false);
         vistaPpal.getBtnNuevo().setEnabled(false);
+        vistaPpal.getTxtAnio().setText(String.valueOf(pronostico.getCantidadVentas().size()));
     }
     
     public void borrarAnio() {
@@ -220,8 +228,6 @@ public class GestorVistaPpal {
         //Ingresa el pronóstico de los años ingresados
         int aniosAPronosticar = Integer.parseInt(vistaPpal.getTxtAnios().getText());
         if(aniosAPronosticar >= 2) {
-            //
-            anioActual +=1;
             Object[] fila = new Object[2];
             fila[0] = 0; //Año
             fila[1] = 0; //Pronóstico de ventas del año
