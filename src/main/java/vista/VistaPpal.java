@@ -41,12 +41,6 @@ public class VistaPpal extends javax.swing.JFrame {
         modeloTablaHistorico.addRow(fila);
     }
     
-    public void modificarFilaTablaHistorico(Object[] fila, int identificador) {
-        modeloTablaHistorico.setValueAt(fila[0], identificador, 0);
-        modeloTablaHistorico.setValueAt(fila[1], identificador, 1);
-        modeloTablaHistorico.setValueAt(fila[2], identificador, 2);
-    }
-    
     public void anadirFilaTablaPronostico(Object[] fila) {
         modeloTablaPronostico.addRow(fila);
     }

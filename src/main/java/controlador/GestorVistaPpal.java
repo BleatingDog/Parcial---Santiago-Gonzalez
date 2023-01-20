@@ -17,6 +17,7 @@ public class GestorVistaPpal {
     
     private VistaPpal vistaPpal;
     private Pronostico pronostico;
+    private int filaSeleccionadaModificar;
     
     public GestorVistaPpal(VistaPpal vistaPpal){
         this.vistaPpal = vistaPpal;
@@ -37,43 +38,44 @@ public class GestorVistaPpal {
             
             if (e.getSource() == vistaPpal.getBtnAgregar() && vistaPpal.getBtnAgregar().isEnabled()){
                 if (e.getButton() == 1){
-                     agregarEnProceso();
+                    borrarPronostico(false);
+                    agregarEnProceso();
                 }
             }
             
             if (e.getSource() == vistaPpal.getBtnAceptar3() && vistaPpal.getBtnAceptar3().isEnabled()){
                 if (e.getButton() == 1){
-                     agregarAnio();
+                    agregarAnio();
                 }
             }
             if (e.getSource() == vistaPpal.getBtnBorrar() && vistaPpal.getBtnBorrar().isEnabled()){
                 if (e.getButton() == 1){
-                     borrarAnio();
+                    borrarAnio();
+                    borrarPronostico(false);
                 }
             }
             
             if (e.getSource() == vistaPpal.getBtnModificar() && vistaPpal.getBtnModificar().isEnabled()){
                 if (e.getButton() == 1){
-                     ingresarDatosVentaAnterior();
-                     
+                    ingresarDatosVentaAnterior();
                 }
             }
             
             if (e.getSource() == vistaPpal.getBtnAceptar() && vistaPpal.getBtnAceptar().isEnabled()){
                 if (e.getButton() == 1){
-                     modificarAnio();
+                    modificarAnio();
                 }
             }
             
             if (e.getSource() == vistaPpal.getBtnNuevo() && vistaPpal.getBtnNuevo().isEnabled()){
                 if (e.getButton() == 1){
-                    borrarPronostico();
+                    borrarPronostico(true);
                 }
             }
             
             if (e.getSource() == vistaPpal.getBtnAceptar2() && vistaPpal.getBtnAceptar2().isEnabled()){
                 if (e.getButton() == 1){
-                     ingresarPronostico();
+                    ingresarPronostico();
                 }
             }
         }
@@ -81,7 +83,7 @@ public class GestorVistaPpal {
     
     public void agregarAnio() {
         
-        int cantidadDeVentas = Integer.parseInt(vistaPpal.getTxtCantidadVenta().getText());
+        double cantidadDeVentas = Double.parseDouble(vistaPpal.getTxtCantidadVenta().getText());
         if(cantidadDeVentas >= 0) {
             
             pronostico.agregarAno(cantidadDeVentas);
@@ -126,24 +128,16 @@ public class GestorVistaPpal {
         
         int filaSeleccionada = vistaPpal.filaSeleccionada();
         
-        pronostico.eliminarAno(filaSeleccionada);
-        
         if (filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Ninguna entrada seleccionada", "Error", JOptionPane.ERROR_MESSAGE);            
             return;
         }
         
+        pronostico.eliminarAno(filaSeleccionada);
+        
         int numeroDeFilas = vistaPpal.getModeloTablaHistorico().getRowCount();
 
-        //Borra los años posteriores al año seleccionado
-        for(int i = filaSeleccionada; i < numeroDeFilas; i++){
-            vistaPpal.getModeloTablaHistorico().removeRow(filaSeleccionada);
-        }
-
-        //Borra los pronósticos
-        for(int i = 0; i < vistaPpal.getModeloTablaPronostico().getRowCount(); i++){
-            vistaPpal.getModeloTablaPronostico().removeRow(i);
-        }
+        actualizarTablaHistorico();
 
         //Modificando ventana
         vistaPpal.getBtnAgregar().setEnabled(true);
@@ -166,15 +160,11 @@ public class GestorVistaPpal {
         
         double ventaNueva = Double.parseDouble(vistaPpal.getTxtCantidadVenta().getText());
         
-        int filaSeleccionada = vistaPpal.filaSeleccionada();
+        int filaSeleccionada = filaSeleccionadaModificar;
         
         pronostico.modificarAno(ventaNueva, filaSeleccionada);
         
-        Object[] fila = new Object[3];
-            fila[0] = filaSeleccionada;
-            fila[1] = pronostico.getCantidadVentas().get(filaSeleccionada);
-            fila[2] = "";
-            vistaPpal.modificarFilaTablaHistorico(fila, filaSeleccionada);
+        actualizarTablaHistorico();
         
         //Modificando ventana
         vistaPpal.getBtnAceptar().setEnabled(false);
@@ -219,41 +209,90 @@ public class GestorVistaPpal {
         vistaPpal.getBtnModificar().setEnabled(false);
         vistaPpal.getBtnNuevo().setEnabled(false);
         
+        int cantidad = vistaPpal.getModeloTablaPronostico().getRowCount();
+        for(int i = 0; i < cantidad; i++){
+            vistaPpal.getModeloTablaPronostico().removeRow(0);
+        }
+        
+        pronostico.borrarPorcentajesDeVariacion();
+        actualizarTablaHistorico();
+        vistaPpal.getTxtPromedio().setText("");
+        filaSeleccionadaModificar = fila;
+        
     }
-    public void borrarPronostico() {
+    public void borrarPronostico(boolean habilitarOpciones) {
         //Borra los pronósticos
-        for(int i = 0; i < vistaPpal.getModeloTablaPronostico().getRowCount(); i++){
-            vistaPpal.getModeloTablaPronostico().removeRow(i);
+        int cantidad = vistaPpal.getModeloTablaPronostico().getRowCount();
+        for(int i = 0; i < cantidad; i++){
+            vistaPpal.getModeloTablaPronostico().removeRow(0);
         }
         
         //Modificando ventana
-        vistaPpal.getBtnAceptar2().setEnabled(true);
+        vistaPpal.getBtnAceptar2().setEnabled(habilitarOpciones);
         vistaPpal.getTxtCantidadVenta().setEnabled(false);
-        vistaPpal.getBtnAceptar().setEnabled(false);
-        vistaPpal.getBtnAgregar().setEnabled(false);
-        vistaPpal.getBtnBorrar().setEnabled(false);
-        vistaPpal.getBtnModificar().setEnabled(false);
-        vistaPpal.getBtnNuevo().setEnabled(false);
+        vistaPpal.getTxtPromedio().setText("");
+        vistaPpal.getTxtAnios().setEnabled(habilitarOpciones);
+        vistaPpal.getBtnAgregar().setEnabled(!habilitarOpciones);
+        vistaPpal.getBtnBorrar().setEnabled(!habilitarOpciones);
+        vistaPpal.getBtnModificar().setEnabled(!habilitarOpciones);
+        if(vistaPpal.getModeloTablaHistorico().getRowCount() >= 2){
+            vistaPpal.getBtnNuevo().setEnabled(!habilitarOpciones);
+        } else {
+           vistaPpal.getBtnNuevo().setEnabled(false); 
+        }
+        pronostico.borrarPorcentajesDeVariacion();
+        actualizarTablaHistorico();
     }
     public void ingresarPronostico(){
+        pronostico.calcularPorcentajeDeVariacion();
+        actualizarTablaHistorico();
+        
         //Ingresa el pronóstico de los años ingresados
         int aniosAPronosticar = Integer.parseInt(vistaPpal.getTxtAnios().getText());
         if(aniosAPronosticar >= 2) {
-            Object[] fila = new Object[2];
-            fila[0] = 0; //Año
-            fila[1] = 0; //Pronóstico de ventas del año
-            vistaPpal.anadirFilaTablaPronostico(fila);
+            for (int i=0; i<aniosAPronosticar; i++) {
+                Object[] fila = new Object[2];
+                fila[0] = i;
+                fila[1] = pronostico.calcularPronostico(i);
+                vistaPpal.anadirFilaTablaPronostico(fila);
+            }
+            
+            vistaPpal.getTxtPromedio().setText(String.valueOf(pronostico.getPorcentajeDeVariacionPromedio()));
             
             //Modificando ventana
             vistaPpal.getBtnAceptar2().setEnabled(false);
-            vistaPpal.getBtnAceptar().setEnabled(false);
-            vistaPpal.getTxtCantidadVenta().setEnabled(true);
             vistaPpal.getBtnAgregar().setEnabled(true);
             vistaPpal.getBtnBorrar().setEnabled(true);
             vistaPpal.getBtnModificar().setEnabled(true);
             vistaPpal.getBtnNuevo().setEnabled(true);
+            vistaPpal.getTxtAnios().setEnabled(false);
+            vistaPpal.getTxtAnios().setText("");
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un número mayor o igual a 2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void actualizarTablaHistorico() {
+        int cantidad = vistaPpal.getModeloTablaHistorico().getRowCount();
+        for (int i=0; i<cantidad; i++) {
+            vistaPpal.getModeloTablaHistorico().removeRow(0);
+        }
+        for (int i=0; i<pronostico.getCantidadVentas().size(); i++) {
+            Object[] fila = new Object[3];
+            fila[0] = i;
+            fila[1] = pronostico.getCantidadVentas().get(i);
+            if (i==0) {
+                fila[2] = "";
+            } else if (pronostico.getPorcentajeDeVariacion() != null) {
+                if (pronostico.getPorcentajeDeVariacion().size() != 0) {
+                    fila[2] = pronostico.getPorcentajeDeVariacion().get(i-1);
+                } else {
+                    fila[2] = ""; 
+                }
+            } else {
+                fila[2] = ""; 
+            }
+            vistaPpal.anadirFilaTablaHistorico(fila);
         }
     }
 }

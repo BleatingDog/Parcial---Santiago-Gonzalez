@@ -31,11 +31,14 @@ public class Pronostico {
     }
     
     public void eliminarAno(int ano) {
-        this.cantidadVentas.removeIf(i -> i>=ano);
+        int cantidad = cantidadVentas.size();
+        for(int i = ano; i<cantidad; i++) {
+            cantidadVentas.remove(ano);
+        }
     }
     
     public boolean calcularPorcentajeDeVariacion() {
-        if (cantidadVentas.size() >= 2) {
+        if (cantidadVentas.size() > 2) {
             porcentajeDeVariacion = new ArrayList();
             Iterator i = cantidadVentas.iterator();
             double primerAno = (double) i.next();
@@ -55,11 +58,11 @@ public class Pronostico {
         return false;
     }
     
-    public double calcularIncremento(int ano) {
+    public double calcularPronostico(int ano) {
         try {
             return cantidadVentas.get(ano);
         } catch (IndexOutOfBoundsException e) {
-            return calcularIncremento(ano-1)*(1+porcentajeDeVariacionPromedio);
+            return calcularPronostico(ano-1)*(1+porcentajeDeVariacionPromedio);
         }
     }
 
@@ -77,5 +80,11 @@ public class Pronostico {
 
     public double getPorcentajeDeVariacionPromedio() {
         return porcentajeDeVariacionPromedio;
+    }
+    
+    public void borrarPorcentajesDeVariacion () {
+        if (porcentajeDeVariacion != null) {
+            porcentajeDeVariacion.clear();
+        }
     }
 }
