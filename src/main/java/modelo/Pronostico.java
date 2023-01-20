@@ -30,7 +30,7 @@ public class Pronostico {
         this.cantidadVentas.set(ano, cantidadVentas);
     }
     
-    public void eliminarAno(double cantidadVentas, int ano) {
+    public void eliminarAno(int ano) {
         this.cantidadVentas.removeIf(i -> i>=ano);
     }
     

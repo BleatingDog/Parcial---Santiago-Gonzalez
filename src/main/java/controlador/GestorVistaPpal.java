@@ -125,6 +125,9 @@ public class GestorVistaPpal {
     public void borrarAnio() {
         
         int filaSeleccionada = vistaPpal.filaSeleccionada();
+        
+        pronostico.eliminarAno(filaSeleccionada);
+        
         if (filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Ninguna entrada seleccionada", "Error", JOptionPane.ERROR_MESSAGE);            
             return;
@@ -134,7 +137,7 @@ public class GestorVistaPpal {
 
         //Borra los años posteriores al año seleccionado
         for(int i = filaSeleccionada; i < numeroDeFilas; i++){
-            vistaPpal.getModeloTablaHistorico().removeRow(i);
+            vistaPpal.getModeloTablaHistorico().removeRow(filaSeleccionada);
         }
 
         //Borra los pronósticos
